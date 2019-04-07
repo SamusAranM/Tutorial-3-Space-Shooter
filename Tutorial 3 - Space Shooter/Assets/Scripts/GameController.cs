@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour {
     public Text ScoreText;
     public Text restartText;
     public Text gameOverText;
+    //public Text winText;
 
     private bool gameOver;
     private bool restart;
@@ -29,6 +30,7 @@ public class GameController : MonoBehaviour {
 
         restartText.text = "";
         gameOverText.text = "";
+        //winText.text = "";
 
         score = 0;
         UpdateScore();
@@ -96,6 +98,14 @@ public class GameController : MonoBehaviour {
     void UpdateScore() {
 
         ScoreText.text = "Score: " + score.ToString();
+        //if(score >= 100) {
+
+            //winText.text = "You Win!";
+            //gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+            //gameOver = true;
+            //restart = true;
+
+        //}
 
     }
 
@@ -105,4 +115,5 @@ public class GameController : MonoBehaviour {
         gameOver = true;
 
     }
+
 }
