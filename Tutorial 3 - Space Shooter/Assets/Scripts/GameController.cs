@@ -6,21 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour {
 
-    public GameObject hazard;
+    public GameObject[] hazards;
     public Vector3 spawnValues;
     public int hazardCount;
     public float spawnWait;
     public float startWait;
     public float waveWait;
 
-    public Text ScoreText;
+    public Text PointsText;
     public Text restartText;
     public Text gameOverText;
-    //public Text winText;
+    public Text winText;
 
     private bool gameOver;
     private bool restart;
-    private int score;
+    private int points;
 
 
     private void Start() {
@@ -30,10 +30,10 @@ public class GameController : MonoBehaviour {
 
         restartText.text = "";
         gameOverText.text = "";
-        //winText.text = "";
+        winText.text = "";
 
-        score = 0;
-        UpdateScore();
+        points = 0;
+        UpdatePoints();
         StartCoroutine (SpawnWaves());
 
     }
@@ -42,7 +42,7 @@ public class GameController : MonoBehaviour {
 
         if (restart) {
 
-            if(Input.GetKeyDown(KeyCode.R)) {
+            if(Input.GetKeyDown(KeyCode.E)) {
 
                 SceneManager.LoadScene("Main");
 
@@ -66,6 +66,7 @@ public class GameController : MonoBehaviour {
 
             for (int i = 0; i < hazardCount; i++) {
 
+                GameObject hazard = hazards[Random.Range(0, hazards.Length)];
                 Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
                 Quaternion spawnRotation = Quaternion.identity;
                 Instantiate(hazard, spawnPosition, spawnRotation);
@@ -78,7 +79,7 @@ public class GameController : MonoBehaviour {
 
             if (gameOver) {
 
-                restartText.text = "Press 'R' to Restart";
+                restartText.text = "Press 'E' to Restart";
                 restart = true;
                 break;
 
@@ -88,24 +89,24 @@ public class GameController : MonoBehaviour {
 
     }
 
-    public void AddScore(int newScoreValue) {
+    public void AddPoints(int newPointsValue) {
 
-        score += newScoreValue;
-        UpdateScore();
+        points += newPointsValue;
+        UpdatePoints();
 
     }
 
-    void UpdateScore() {
+    void UpdatePoints() {
 
-        ScoreText.text = "Score: " + score.ToString();
-        //if(score >= 100) {
+        PointsText.text = "Points: " + points.ToString();
+        if(points >= 100) {
 
-            //winText.text = "You Win!";
-            //gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
-            //gameOver = true;
-            //restart = true;
+            winText.text = "You Win!";
+            gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+            gameOver = true;
+            restart = true;
 
-        //}
+        }
 
     }
 
