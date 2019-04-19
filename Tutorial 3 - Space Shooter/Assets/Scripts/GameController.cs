@@ -22,6 +22,13 @@ public class GameController : MonoBehaviour {
     private bool restart;
     private int points;
 
+    public AudioClip win;
+    public AudioClip lose;
+
+    //testing
+    //public GameObject s;
+    public BGScroller BGSpeed;
+    public BGScroller SFSpeed;
 
     private void Start() {
 
@@ -35,6 +42,7 @@ public class GameController : MonoBehaviour {
         points = 0;
         UpdatePoints();
         StartCoroutine (SpawnWaves());
+
 
     }
 
@@ -61,7 +69,7 @@ public class GameController : MonoBehaviour {
     IEnumerator SpawnWaves() {
 
         yield return new WaitForSeconds(startWait);
-
+        
         while(true) {
 
             for (int i = 0; i < hazardCount; i++) {
@@ -106,6 +114,14 @@ public class GameController : MonoBehaviour {
             gameOver = true;
             restart = true;
 
+            //testing
+            BGSpeed.scrollSpeed = -10.00f;
+            SFSpeed.scrollSpeed = -10.00f;
+
+
+            AudioSource audio = GetComponent<AudioSource>();
+            audio.Stop(); audio.clip = win;
+            audio.Play();
         }
 
     }
@@ -115,6 +131,9 @@ public class GameController : MonoBehaviour {
         gameOverText.text = "Game Over!";
         gameOver = true;
 
+        AudioSource audio = GetComponent<AudioSource>();
+        audio.Stop(); audio.clip = lose;
+        audio.Play();
     }
 
 }

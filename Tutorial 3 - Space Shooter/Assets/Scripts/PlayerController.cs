@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +37,9 @@ public class PlayerController : MonoBehaviour {
             nextFire = Time.time + fireRate;
 //          GameObject clone = 
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation); //as GameObject;
-            audioSource.Play();
+
+
+            audioSource.Play(); //player shot audio
 
         }
         
