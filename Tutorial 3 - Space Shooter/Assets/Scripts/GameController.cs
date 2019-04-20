@@ -13,10 +13,16 @@ public class GameController : MonoBehaviour {
     public float startWait;
     public float waveWait;
 
+    //works
+    public float currentTime;
+    public float startingTime;
+
     public Text PointsText;
     public Text restartText;
     public Text gameOverText;
     public Text winText;
+    public Text countdownText;
+    public Text mainMenuText; //works
 
     private bool gameOver;
     private bool restart;
@@ -24,11 +30,15 @@ public class GameController : MonoBehaviour {
 
     public AudioClip win;
     public AudioClip lose;
-
-    //testing
-    //public GameObject s;
+    
+    //works
     public BGScroller BGSpeed;
     public BGScroller SFSpeed;
+
+    //testing
+    //public Mover speed1;
+    //public Mover speed2;
+    //public Mover speed3;
 
     private void Start() {
 
@@ -38,21 +48,54 @@ public class GameController : MonoBehaviour {
         restartText.text = "";
         gameOverText.text = "";
         winText.text = "";
+        mainMenuText.text = "";
 
         points = 0;
         UpdatePoints();
         StartCoroutine (SpawnWaves());
-
+        currentTime = startingTime;
 
     }
 
     private void Update() {
 
-        if (restart) {
+        Scene scene = SceneManager.GetActiveScene();
 
-            if(Input.GetKeyDown(KeyCode.E)) {
+        string sceneName = scene.name;
 
-                SceneManager.LoadScene("Main");
+        if (sceneName == "Main") {
+            if (restart) {
+
+                if (Input.GetKeyDown(KeyCode.E)) {
+
+                    SceneManager.LoadScene("Main");
+
+                }
+
+                if (Input.GetKeyDown(KeyCode.M)) {
+
+                    SceneManager.LoadScene("Menu");
+
+                }
+
+            }
+
+        }
+
+        if (sceneName == "Time" || sceneName == "Hard") {
+            if (restart) {
+
+                if (Input.GetKeyDown(KeyCode.E)) {
+
+                    SceneManager.LoadScene("Time");
+
+                }
+
+                if (Input.GetKeyDown(KeyCode.M)) {
+
+                    SceneManager.LoadScene("Menu");
+
+                }
 
             }
 
@@ -62,6 +105,15 @@ public class GameController : MonoBehaviour {
 
             Application.Quit();
 
+        }
+
+        //works
+        currentTime -= 1 * Time.deltaTime;
+        countdownText.text = currentTime.ToString("0");
+
+        if (currentTime <= 0)
+        {
+            currentTime = 0;
         }
 
     }
@@ -88,6 +140,8 @@ public class GameController : MonoBehaviour {
             if (gameOver) {
 
                 restartText.text = "Press 'E' to Restart";
+                mainMenuText.text = "Press 'M' for Main Menu";
+
                 restart = true;
                 break;
 
@@ -106,23 +160,65 @@ public class GameController : MonoBehaviour {
 
     void UpdatePoints() {
 
+        //works
+
+        Scene scene = SceneManager.GetActiveScene();
+
+        string sceneName = scene.name;
+
         PointsText.text = "Points: " + points.ToString();
-        if(points >= 100) {
 
-            winText.text = "You Win!";
-            gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
-            gameOver = true;
-            restart = true;
+        if (sceneName == "Main") {
 
-            //testing
-            BGSpeed.scrollSpeed = -10.00f;
-            SFSpeed.scrollSpeed = -10.00f;
+            //use this for "Hard"
+            //speed1.speed = -20f;
+            //speed2.speed = -20f;
+            //speed3.speed = -20f;
 
+            if (points >= 100) {
 
-            AudioSource audio = GetComponent<AudioSource>();
-            audio.Stop(); audio.clip = win;
-            audio.Play();
+                winText.text = "You Win!";
+                gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+                mainMenuText.text = "Press 'M' for Main Menu";
+                gameOver = true;
+                restart = true;
+
+                //works
+                BGSpeed.scrollSpeed = -10.00f;
+                SFSpeed.scrollSpeed = -10.00f;
+
+                //kind of
+                AudioSource audio = GetComponent<AudioSource>();
+                audio.Stop(); audio.clip = win;
+                audio.Play();
+
+            }
+
         }
+
+        if (sceneName == "Time") {
+
+            if (currentTime <= 0) {
+
+                winText.text = "Great Job!";
+                gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+                mainMenuText.text = "Press 'M' for Main Menu";
+                gameOver = true;
+                restart = true;
+
+                //works
+                BGSpeed.scrollSpeed = -10.00f;
+                SFSpeed.scrollSpeed = -10.00f;
+
+                //Kind of
+                AudioSource audio = GetComponent<AudioSource>();
+                audio.Stop(); audio.clip = win;
+                audio.Play();
+
+            }
+
+        }
+
 
     }
 
