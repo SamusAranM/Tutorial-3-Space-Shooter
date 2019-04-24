@@ -11,9 +11,9 @@ public class MainMenu : MonoBehaviour {
 
     }
 
-    public void PlayTime () {
+    public void PlayHard () {
 
-        SceneManager.LoadScene("Time");
+        SceneManager.LoadScene("Hard");
 
     }
 

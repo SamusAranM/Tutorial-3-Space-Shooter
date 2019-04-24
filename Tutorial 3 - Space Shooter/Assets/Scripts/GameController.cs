@@ -36,9 +36,12 @@ public class GameController : MonoBehaviour {
     public BGScroller SFSpeed;
 
     //testing
-    //public Mover speed1;
-    //public Mover speed2;
-    //public Mover speed3;
+    public Mover a1;
+    public Mover a2;
+    public Mover a3;
+    public Mover e1;
+
+    private bool soundP = false;
 
     private void Start() {
 
@@ -54,6 +57,8 @@ public class GameController : MonoBehaviour {
         UpdatePoints();
         StartCoroutine (SpawnWaves());
         currentTime = startingTime;
+
+
 
     }
 
@@ -82,12 +87,12 @@ public class GameController : MonoBehaviour {
 
         }
 
-        if (sceneName == "Time" || sceneName == "Hard") {
+        if (sceneName == "Hard") {
             if (restart) {
 
                 if (Input.GetKeyDown(KeyCode.E)) {
 
-                    SceneManager.LoadScene("Time");
+                    SceneManager.LoadScene("Hard");
 
                 }
 
@@ -107,13 +112,52 @@ public class GameController : MonoBehaviour {
 
         }
 
-        //works
+        //works, was in UpdatePoints
         currentTime -= 1 * Time.deltaTime;
         countdownText.text = currentTime.ToString("0");
 
         if (currentTime <= 0)
         {
             currentTime = 0;
+        }
+
+        if (sceneName == "Hard")
+        {
+            //use this for "Hard"
+            a1.speed = -20f;
+            a2.speed = -20f;
+            a3.speed = -20f;
+            e1.speed = -15f;
+
+            //works soundP
+            if (!soundP)
+            {
+
+                if (currentTime <= 0)
+                {
+
+                    winText.text = "Great Job!";
+                    gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+                    mainMenuText.text = "Press 'M' for Main Menu";
+                    gameOver = true;
+                    restart = true;
+
+                    //works
+                    BGSpeed.scrollSpeed = -10.00f;
+                    SFSpeed.scrollSpeed = -10.00f;
+
+                    //soundP works but testing Lose
+                    soundP = true;
+
+                    //Kind of
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.Stop(); audio.clip = win;
+                    audio.loop = false;
+                    audio.Play();
+
+                }
+
+            }
         }
 
     }
@@ -168,57 +212,39 @@ public class GameController : MonoBehaviour {
 
         PointsText.text = "Points: " + points.ToString();
 
-        if (sceneName == "Main") {
+        if (!soundP)
+        {
 
-            //use this for "Hard"
-            //speed1.speed = -20f;
-            //speed2.speed = -20f;
-            //speed3.speed = -20f;
+            if (sceneName == "Main")
+            {
+                a1.speed = -5f;
+                a2.speed = -5f;
+                a3.speed = -5f;
+                e1.speed = -5f;
 
-            if (points >= 100) {
+                if (points >= 100)
+                {
+                   
+                    winText.text = "You Win!";
+                    gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
+                    mainMenuText.text = "Press 'M' for Main Menu";
 
-                winText.text = "You Win!";
-                gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
-                mainMenuText.text = "Press 'M' for Main Menu";
-                gameOver = true;
-                restart = true;
+                    gameOver = true;
+                    restart = true;
 
-                //works
-                BGSpeed.scrollSpeed = -10.00f;
-                SFSpeed.scrollSpeed = -10.00f;
+                    //works
+                    BGSpeed.scrollSpeed = -10.00f;
+                    SFSpeed.scrollSpeed = -10.00f;
 
-                //kind of
-                AudioSource audio = GetComponent<AudioSource>();
-                audio.Stop(); audio.clip = win;
-                audio.Play();
+                    AudioSource audio = GetComponent<AudioSource>();
+                    audio.Stop(); audio.clip = win;
+                    audio.loop = false;
+                    audio.Play();
 
-            }
-
-        }
-
-        if (sceneName == "Time") {
-
-            if (currentTime <= 0) {
-
-                winText.text = "Great Job!";
-                gameOverText.text = "GAME CREATED BY MARIA BARAHONA";
-                mainMenuText.text = "Press 'M' for Main Menu";
-                gameOver = true;
-                restart = true;
-
-                //works
-                BGSpeed.scrollSpeed = -10.00f;
-                SFSpeed.scrollSpeed = -10.00f;
-
-                //Kind of
-                AudioSource audio = GetComponent<AudioSource>();
-                audio.Stop(); audio.clip = win;
-                audio.Play();
+                }
 
             }
-
         }
-
 
     }
 
